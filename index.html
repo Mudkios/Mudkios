@@ -2,244 +2,373 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="script.js">
-    <link rel="stylesheet" href="indexAR.html">
-    <title>Mohamed Walid</title>
+    <title>World Explorer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <script defer src="script.js"></script>
+    <link rel="shortcut icon" href="icon.png" type="icon">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Darumadrop+One&display=swap');
+        /* General styles for the body */
+        body {
+            background-color: #eee;
+            margin: 0;
+            font-family: 'Darumadrop One', sans-serif;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+
+        /* Styles for the header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: white;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Styles for the main title in the header */
+        header h1 {
+            font-size: 1.5rem;
+            color: #8a98a5;
+        }
+
+        /* Styles for the hamburger menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger div {
+            width: 30px;
+            height: 4px;
+            background: #8a98a5;
+            margin: 5px;
+            transition: 0.3s;
+        }
+
+        /* Styles for the navigation menu */
+        .nav-menu {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btnt {
+            background: #8a98a5;
+            color: white;
+            border: 2px solid white;
+            border-radius: 25px;
+            padding: 8px 16px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            text-decoration: none;
+            font-family: 'Darumadrop One', sans-serif;
+        }
+
+        .btnt:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                right: 0;
+                background: white;
+                width: 200px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                padding: 10px;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .hamburger.active div:nth-child(1) {
+                transform: rotate(-52deg) translate(-12px, 6px);
+            }
+
+            .hamburger.active div:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active div:nth-child(3) {
+                transform: rotate(52deg) translate(-13px, -6px);
+                width: 33px;
+            }
+            h1 {
+                font-size: 3rem;
+            }
+        }
+
+        /* Styles for the .inh div to fill the entire background */
+        .inh {
+            height: 100vh;
+            background-image: url('m.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            margin-top: 60px; /* Adjust for fixed header */
+            font-size: 2.5rem;
+        }
+
+        /* Styles for the gallery section */
+        .gallery {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 40px;
+            background: #eee;
+        }
+
+        .nvm {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 0px;
+            background: #eee;
+        }
+
+        /* Styles for the cards */
+        .card {
+            background-color: white;
+            border-radius: 3rem;
+            width: 300px;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+            color: #8a98a5;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hover effect for the cards */
+        .card:hover {
+            transform: scale(1.1);
+        }
+
+        /* Styles for the city sections */
+        .city-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 4rem;
+            background-size: cover;
+            background-position: center;
+            text-transform: uppercase;
+            position: relative;
+            padding: 0; /* Remove padding */
+            text-align: center;
+        }
+
+        /* Styles for the description paragraphs */
+        .description {
+            max-width: 60%;
+            font-size: 2rem;
+            text-align: center;
+            margin-top: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        /* Show class for the description paragraphs */
+        .description.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .nvm {
+            text-align: center;
+            font-size: 2rem;
+            margin-top: 20px;
+            font-family: 'Darumadrop One', sans-serif;
+            background-color: #eee;
+        }
+
+        /* Styles for the buttons */
+        .btn {
+            margin: 10px;
+            padding: 12px 24px;
+            background: #222;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 1.5rem;
+            transition: background 0.3s, transform 0.2s;
+            border: 2px solid white;
+            cursor: pointer;
+        }
+
+        /* Hover effect for the buttons */
+        .btn:hover {
+            background: #555;
+            transform: scale(1.05);
+        }
+
+        /* Styles for the footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #333;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        /* Styles for the shelf image */
+        .shelf {
+            width: 100%;
+            height: auto;
+            margin: 0; /* Remove margin */
+            display: block; /* Ensure the image is displayed as a block element */
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const hamburger = document.querySelector(".hamburger");
+            const navMenu = document.querySelector(".nav-menu");
+
+            hamburger.addEventListener("click", () => {
+                hamburger.classList.toggle("active");
+                navMenu.classList.toggle("active");
+            });
+        });
+        document.addEventListener("DOMContentLoaded", () => {
+            const links = document.querySelectorAll(".btn");
+            links.forEach(link => {
+                link.addEventListener("click", (event) => {
+                    if (link.classList.contains("learn-more")) {
+                        event.preventDefault();
+                        const description = link.parentElement.querySelector(".description");
+                        if (description) {
+                            description.classList.toggle("show");
+                        }
+                    }
+                });
+            });
+
+            let lastScrollTop = 0;
+            const header = document.querySelector('header');
+            window.addEventListener('scroll', () => {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                if (scrollTop > lastScrollTop) {
+                    header.style.top = '-80px'; // Hide header
+                } else {
+                    header.style.top = '0'; // Show header
+                }
+                lastScrollTop = scrollTop;
+            });
+        });
+    </script>
 </head>
 <body>
-
     <header>
-        <a href="#" class="logo">Mohamed Walid website</a>
-        <nav class="navigation">
-            <a href="#services">Services</a>
-            <a href="#projects">Projects</a>
-            <a href="#contact">Contact</a>
-            <a href="indexAR.html">Arabic</a>
+        <h1>World Explorer</h1>
+        <div class="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <nav class="nav-menu">
+            <button class="btnt" onclick="document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });">Gallery</button>
+            <button class="btnt" onclick="document.getElementById('paris').scrollIntoView({ behavior: 'smooth' });">Paris</button>
+            <button class="btnt" onclick="document.getElementById('tokyo').scrollIntoView({ behavior: 'smooth' });">Tokyo</button>
+            <button class="btnt" onclick="document.getElementById('newyork').scrollIntoView({ behavior: 'smooth' });">New York</button>
+            <button class="btnt" onclick="document.getElementById('dubai').scrollIntoView({ behavior: 'smooth' });">Dubai</button>
+            <button class="btnt" onclick="document.getElementById('rome').scrollIntoView({ behavior: 'smooth' });">Rome</button>
+            <button class="btnt" onclick="document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });">Contact</button>
         </nav>
-        <button class="hamburger">
-            <div class="bar"></div>
-        </button>
     </header>
-
-    <nav class="mobile-nav">
-        <a href="#services" class="mobile-navB">Services</a>
-        <a href="#projects" class="mobile-navB">Projects</a>
-        <a href="#contact" class="mobile-navB">Contact</a>
-        <a href="indexAR.html">Arabic</a>
-    </nav>
-
-    <section class="main">
-        <div>
-            <h2>Hello,I am<br><span>Mohamed Walid</span></h2>
-            <h3>I Make Games,Apps,Websites</h3>
-            <a href="#contact" class="main-btn">Contact me</a>
-            <div class="social-icons">
-                <a href="https://www.facebook.com/profile.php?id=100030010485121" target="_blank" class="icons">
-                    <ion-icon name="logo-facebook"></ion-icon>
-                </a>
-                <a href="https://www.instagram.com/mohamed_walid93/" target="_blank" class="icons">
-                    <ion-icon name="logo-instagram"></ion-icon>
-                </a>
-                <a href="https://nepro-st.itch.io/" target="_blank" class="icons">
-                    <ion-icon name="logo-steam"></i></ion-icon>
-                </a>
-                <a href="https://youtube.com/@nepro_st6960?si=6VpLPj1vAG1Q9697" target="_blank" class="icons">
-                    <ion-icon name="logo-youtube"></i></ion-icon>
-                </a>
-                <a href="https://discord.gg/cRQmjEWF" target="_blank" class="icons">
-                    <ion-icon name="logo-discord"></i></ion-icon>
-                </a>
-                <a href="https://www.snapchat.com/add/mohamedjijiji?share_id=Q-YNAlAnaZg&locale=en-US" target="_blank" class="icons">
-                    <ion-icon name="logo-snapchat"></i></ion-icon>
-                </a>
-                <a href="https://www.tiktok.com/@totallynot_mohamed?_t=8rPYzsFO05h&_r=1" target="_blank" class="icons">
-                    <ion-icon name="logo-tiktok"></i></ion-icon>
-                </a>
-                <a href="https://x.com/Mohamed93071297?t=p5sOoz7YD92gQLreCLNkHA&s=08" target="_blank" class="icons">
-                    <ion-icon name="logo-twitter"></i></ion-icon>
-                </a>
-            </div>
+    <div class="inh">
+        <h1>Your travel guide for next year travels</h1>
+    </div>
+    <h1 class="nvm">Gallery for all cities</h1>
+    <section class="gallery" id="gallery">
+        <div class="card" style="background-image: url('paris2.jpg');">
+            <h2>Paris, France</h2>
         </div>
-
-            <div class="tryhard">
-                <div class="tryhard-card">   
-                    <div class="meow">
-                        <img src="heie.jpg" />
-                    </div>
-                    <div class="project-info">
-                        <p class="project-category"></p>
-                        <strong class="project-title">
-                            <span>Hello , My name is Mohamed Walid and I am a 13 year old programmer.</span>
-                        </strong>
-                    </div>
-                </div> 
-            </div>
-    </section>
-
-
-    <section class="cards" id="services">
-        <h2 class="title">Services</h2>
-        <div class="content">
-            <div class="card-container">
-                <div class="card">
-                    <div class="icon">
-                        <i class="fas fa-gamepad"></i>
-                    </div>
-                    <div class="info">
-                        <h3>Games</h3>
-                        <p>I make different types of Games  wheather it was 2D or 3D and i use two game engines Unity and Godot.</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="icon">
-                        <i class="fas fa-mobile"></i>
-                    </div>
-                    <div class="info">
-                        <h3>Apps</h3>
-                        <p>Till now i am still learning about different languages of programming to make apps right now i am learning Python so i hope i get better in the future</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="icon">
-                        <i class="fas fa-globe"></i>
-                    </div>
-                    <div class="info">
-                        <h3>Websites</h3>
-                        <p>I learned so many things about Websites in the past 2 years where i learned about front-end development and back-end development</p>
-                    </div>
-                </div>
-            </div>
-    </section>
-
-    <section class="projects" id="projects">
-        <h2 class="title">Projects</h2>
-        <div class="project-card">
-            <div class="project-image">
-                <img src="img.png" />
-            </div>
-            <div class="project-info">
-                <p class="project-category"></p>
-                <strong class="project-title">
-                    <span>Moving Time</span>
-                    <a href="https://nepro-st.itch.io/moving-time" class="more-details">Download!</a>
-                </strong>
-            </div>
+        <div class="card" style="background-image: url('Tokyo2.jpg');">
+            <h2>Tokyo, Japan</h2>
         </div>
-        <div class="project-card">
-            <div class="project-image">
-                <img src="platformer.png" />
-            </div>
-            <div class="project-info">
-                <p class="project-category"></p>
-                <strong class="project-title">
-                    <span>Platformer Game</span>
-                    <a href="https://nepro-st.itch.io/platformer-gamedownlable" class="more-details">Download!</a>
-                </strong>
-            </div>
+        <div class="card" style="background-image: url('newyork2.jpg');">
+            <h2>New York, USA</h2>
         </div>
-        <div class="project-card">
-            <div class="project-image">
-                <img src="photo.PNG" />
-            </div>
-            <div class="project-info">
-                <p class="project-category"></p>
-                <strong class="project-title">
-                    <span>Clothing HIT Brand Website</span>
-                    <a href="https://meow-porsche.github.io/HIT/" class="more-details">Visit!</a>
-                </strong>
-            </div>
+        <div class="card" style="background-image: url('dubai1.jpg');">
+            <h2>Dubai, UAE</h2>
         </div>
-        <div class="project-card">
-            <div class="project-image">
-                <img src="Birthday.png" />
-            </div>
-            <div class="project-info">
-                <p class="project-category"></p>
-                <strong class="project-title">
-                    <span>Special Birthday website</span>
-                    <a href="https://nepro-st.github.io/HAPPY-BIRTHDAY-/" class="more-details">Visit!</a>
-                </strong>
-            </div>
-        </div>
-    </section>
-
-    <section class="cards contact" id="contact">
-        <h2 class="title">Let's work together</h2>
-        <div class="content">
-            <div class="card">
-                <div class="icon">
-                    <i class="fas fa-phone"></i>
-                </div>
-                <div class="info">
-                    <h3>Phone</h3>
-                    <p>01226505389</p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="icon">
-                    <i class="fas fa-envelope"></i>
-                </div>
-                <div class="info">
-                    <h3>Email</h3>
-                    <p>mohamedwalidgom3a48@gmail.com
-                    </p>
-                </div>
-            </div>
+        <div class="card" style="background-image: url('rome2.jpg');">
+            <h2>Rome, Italy</h2>
         </div>
     </section>
     
-    <footer class="footer">
-        <p class="footer-title">Copyrights @ <span>Mohamed Walid</span></p>
-        <div class="social-icons">
-            <a href="https://www.facebook.com/profile.php?id=100030010485121" target="_blank" class="icons">
-                <ion-icon name="logo-facebook"></ion-icon>
-            </a>
-            <a href="https://www.instagram.com/mohamed_walid93/" target="_blank" class="icons">
-                <ion-icon name="logo-instagram"></ion-icon>
-            </a>
-            <a href="https://nepro-st.itch.io/" target="_blank" class="icons">
-                <ion-icon name="logo-steam"></i></ion-icon>
-            </a>
-            <a href="https://youtube.com/@nepro_st6960?si=6VpLPj1vAG1Q9697" target="_blank" class="icons">
-                <ion-icon name="logo-youtube"></i></ion-icon>
-            </a>
-            <a href="https://discord.gg/cRQmjEWF" target="_blank" class="icons">
-                <ion-icon name="logo-discord"></i></ion-icon>
-            </a>
-            <a href="https://www.snapchat.com/add/mohamedjijiji?share_id=Q-YNAlAnaZg&locale=en-US" target="_blank" class="icons">
-                <ion-icon name="logo-snapchat"></i></ion-icon>
-            </a>
-            <a href="https://www.tiktok.com/@totallynot_mohamed?_t=8rPYzsFO05h&_r=1" target="_blank" class="icons">
-                <ion-icon name="logo-tiktok"></i></ion-icon>
-            </a>
-            <a href="https://x.com/Mohamed93071297?t=p5sOoz7YD92gQLreCLNkHA&s=08" target="_blank" class="icons">
-                <ion-icon name="logo-twitter"></i></ion-icon>
-            </a>
-        </div>
-        </div>
-
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-<script src="HIT\script.js"></script>
-<script>
-const menu_btn = document.querySelector('.hamburger');
-        const mobile_menu = document.querySelector('.mobile-nav');
-
-        menu_btn.addEventListener('click', function () {
-            menu_btn.classList.toggle('is-active')
-            mobile_menu.classList.toggle('is-active')
-        })
-
-        document.querySelectorAll('.mobile-navB').forEach(item => {
-            item.addEventListener('click', event => {
-                menu_btn.classList.toggle('is-active')
-                mobile_menu.classList.toggle('is-active')
-            })
-        })
-</script>
+    <section class="city-section" id="paris" style="background-image: url('paris1.jpg');">
+        <h1>Paris, France</h1>
+        <a href="#" class="btn learn-more">Learn More</a>
+        <a href="https://www.booking.com/index.html?label=gen173bo-1DCAEoggI46AdIM1gDaEOIAQGYATG4ARfIAQzYAQPoAQH4AQOIAgGYAgKoAgO4AtPQwb0GwAIB0gIkMjczMmVlNGItMDQ0Yy00NGQ3LWFmZDYtOGFlN2I4ZTAxNTQz2AIE4AIB&aid=304142&selected_currency=EGP&sid=295b300afa8060ed01b3365c7d043cfa" class="btn">Book Now</a>
+        <p class="description">Paris, the city of love, is famous for its art, cuisine, and historic landmarks like the Eiffel Tower.</p>
+    </section>
+    <img src="shelf.png" alt="Shelf" class="shelf">
+    
+    <section class="city-section" id="tokyo" style="background-image: url('Tokyo1.jpg');">
+        <h1>Tokyo, Japan</h1>
+        <a href="#" class="btn learn-more">Learn More</a>
+        <a href="https://www.booking.com/index.html?label=gen173bo-1DCAEoggI46AdIM1gDaEOIAQGYATG4ARfIAQzYAQPoAQH4AQOIAgGYAgKoAgO4AtPQwb0GwAIB0gIkMjczMmVlNGItMDQ0Yy00NGQ3LWFmZDYtOGFlN2I4ZTAxNTQz2AIE4AIB&aid=304142&selected_currency=EGP&sid=295b300afa8060ed01b3365c7d043cfa" class="btn">Book Now</a>
+        <p class="description">Tokyo is a bustling metropolis known for its neon lights, technology, and rich culture.</p>
+    </section>
+    <img src="shelf.png" alt="Shelf" class="shelf">
+    
+    <section class="city-section" id="newyork" style="background-image: url('newyork1.jpg');">
+        <h1>New York, USA</h1>
+        <a href="#" class="btn learn-more">Learn More</a>
+        <a href="https://www.booking.com/searchresults.html?ss=new+york&ssne=Tokyo&ssne_untouched=Tokyo&efdco=1&label=gen173bo-1DCAEoggI46AdIM1gDaEOIAQGYATG4ARfIAQzYAQPoAQH4AQOIAgGYAgKoAgO4AtPQwb0GwAIB0gIkMjczMmVlNGItMDQ0Yy00NGQ3LWFmZDYtOGFlN2I4ZTAxNTQz2AIE4AIB&sid=295b300afa8060ed01b3365c7d043cfa&aid=304142&lang=en-us&sb=1&src_elem=sb&src=searchresults&dest_id=20088325&dest_type=city&ac_position=0&ac_click_type=b&ac_langcode=en&ac_suggestion_list_length=5&search_selected=true&search_pageview_id=1a9f47cf190901ef&ac_meta=GhAxYTlmNDdjZjE5MDkwMWVmIAAoATICZW46BG5ldyBAAEoAUAA%3D&group_adults=1&no_rooms=1&group_children=0" class="btn">Book Now</a>
+        <p class="description">New York City, the city that never sleeps, is famous for Times Square, Broadway, and Central Park.</p>
+    </section>
+    <img src="shelf.png" alt="Shelf" class="shelf">
+    
+    <section class="city-section" id="dubai" style="background-image: url('dubai2.jpg');">
+        <h1>Dubai, UAE</h1>
+        <a href="#" class="btn learn-more">Learn More</a>
+        <a href="https://www.booking.com/searchresults.html?ss=dubai&ssne=New+York&ssne_untouched=New+York&efdco=1&label=gen173bo-1DCAEoggI46AdIM1gDaEOIAQGYATG4ARfIAQzYAQPoAQH4AQOIAgGYAgKoAgO4AtPQwb0GwAIB0gIkMjczMmVlNGItMDQ0Yy00NGQ3LWFmZDYtOGFlN2I4ZTAxNTQz2AIE4AIB&sid=295b300afa8060ed01b3365c7d043cfa&aid=304142&lang=en-us&sb=1&src_elem=sb&src=searchresults&group_adults=1&no_rooms=1&group_children=0" class="btn">Book Now</a>
+        <p class="description">Dubai is known for its modern architecture, luxury shopping, and the Burj Khalifa.</p>
+    </section>
+    <img src="shelf.png" alt="Shelf" class="shelf">
+    
+    <section class="city-section" id="rome" style="background-image: url('rome1.jpg');">
+        <h1>Rome, Italy</h1>
+        <a href="#" class="btn learn-more">Learn More</a>
+        <a href="https://www.booking.com/searchresults.html?ss=rome&ssne=Dubai&ssne_untouched=Dubai&efdco=1&label=gen173bo-1DCAEoggI46AdIM1gDaEOIAQGYATG4ARfIAQzYAQPoAQH4AQOIAgGYAgKoAgO4AtPQwb0GwAIB0gIkMjczMmVlNGItMDQ0Yy00NGQ3LWFmZDYtOGFlN2I4ZTAxNTQz2AIE4AIB&sid=295b300afa8060ed01b3365c7d043cfa&aid=304142&lang=en-us&sb=1&src_elem=sb&src=searchresults&group_adults=1&no_rooms=1&group_children=0" class="btn">Book Now</a>
+        <p class="description">Rome, the eternal city, is home to the Colosseum, Vatican City, and ancient ruins.</p>
+    </section>
+    
+    <footer id="contact">
+        <p>Thank you for visiting!<br>Made by Mohamed | Contact: <a class="btnt" href="https://mudkios.github.io/KL/" target="_blank">My Website</a></p>
+    </footer>
 </body>
 </html>
