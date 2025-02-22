@@ -2,375 +2,91 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>World Explorer</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <script defer src="script.js"></script>
-    <link rel="shortcut icon" href="icon.png" type="icon">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Darumadrop+One&display=swap');
-        /* General styles for the body */
-        body {
-            background-color: #eee;
-            margin: 0;
-            font-family: 'Darumadrop One', sans-serif;
-            color: #333;
-            scroll-behavior: smooth;
-        }
-
-        /* Styles for the header */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            background: white;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Styles for the main title in the header */
-        header h1 {
-            font-size: 1.5rem;
-            color: #8a98a5;
-        }
-
-        /* Styles for the hamburger menu */
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            padding-right: 35px;
-        }
-
-        .hamburger div {
-            width: 30px;
-            height: 4px;
-            background: #8a98a5;
-            margin: 5px;
-            transition: 0.3s;
-        }
-
-        /* Styles for the navigation menu */
-        .nav-menu {
-            display: flex;
-            gap: 10px;
-            padding-right: 30px;
-        }
-
-        .btnt {
-            background: #8a98a5;
-            color: white;
-            border: 2px solid white;
-            border-radius: 25px;
-            padding: 8px 16px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background 0.3s, transform 0.2s;
-            text-decoration: none;
-            font-family: 'Darumadrop One', sans-serif;
-        }
-
-        .btnt:hover {
-            transform: scale(1.05);
-        }
-
-        @media (max-width: 768px) {
-            .hamburger {
-                display: flex;
-            }
-
-            .nav-menu {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 60px;
-                right: 0;
-                background: white;
-                width: 200px;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-                padding: 10px;
-            }
-
-            .nav-menu.active {
-                display: flex;
-            }
-
-            .hamburger.active div:nth-child(1) {
-                transform: rotate(-52deg) translate(-12px, 6px);
-            }
-
-            .hamburger.active div:nth-child(2) {
-                opacity: 0;
-            }
-
-            .hamburger.active div:nth-child(3) {
-                transform: rotate(52deg) translate(-13px, -6px);
-                width: 33px;
-            }
-            h1 {
-                font-size: 3rem;
-            }
-        }
-
-        /* Styles for the .inh div to fill the entire background */
-        .inh {
-            height: 100vh;
-            background-image: url('m.jpg');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            margin-top: 60px; /* Adjust for fixed header */
-            font-size: 2.5rem;
-        }
-
-        /* Styles for the gallery section */
-        .gallery {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            padding: 40px;
-            background: #eee;
-        }
-
-        .nvm {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            padding: 0px;
-            background: #eee;
-        }
-
-        /* Styles for the cards */
-        .card {
-            background-color: white;
-            border-radius: 3rem;
-            width: 300px;
-            height: 200px;
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: flex-end;
-            padding: 20px;
-            color: #8a98a5;
-            font-size: 1.5rem;
-            font-weight: bold;
-            transition: transform 0.3s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Hover effect for the cards */
-        .card:hover {
-            transform: scale(1.1);
-        }
-
-        /* Styles for the city sections */
-        .city-section {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 4rem;
-            background-size: cover;
-            background-position: center;
-            text-transform: uppercase;
-            position: relative;
-            padding: 0; /* Remove padding */
-            text-align: center;
-        }
-
-        /* Styles for the description paragraphs */
-        .description {
-            max-width: 60%;
-            font-size: 2rem;
-            text-align: center;
-            margin-top: 20px;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        /* Show class for the description paragraphs */
-        .description.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .nvm {
-            text-align: center;
-            font-size: 2rem;
-            margin-top: 20px;
-            font-family: 'Darumadrop One', sans-serif;
-            background-color: #eee;
-        }
-
-        /* Styles for the buttons */
-        .btn {
-            margin: 10px;
-            padding: 12px 24px;
-            background: #222;
-            color: white;
-            text-decoration: none;
-            border-radius: 25px;
-            font-size: 1.5rem;
-            transition: background 0.3s, transform 0.2s;
-            border: 2px solid white;
-            cursor: pointer;
-        }
-
-        /* Hover effect for the buttons */
-        .btn:hover {
-            background: #555;
-            transform: scale(1.05);
-        }
-
-        /* Styles for the footer */
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: #333;
-            color: white;
-            font-size: 1.5rem;
-        }
-
-        /* Styles for the shelf image */
-        .shelf {
-            width: 100%;
-            height: auto;
-            margin: 0; /* Remove margin */
-            display: block; /* Ensure the image is displayed as a block element */
-        }
-    </style>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const hamburger = document.querySelector(".hamburger");
-            const navMenu = document.querySelector(".nav-menu");
-
-            hamburger.addEventListener("click", () => {
-                hamburger.classList.toggle("active");
-                navMenu.classList.toggle("active");
-            });
-        });
-        document.addEventListener("DOMContentLoaded", () => {
-            const links = document.querySelectorAll(".btn");
-            links.forEach(link => {
-                link.addEventListener("click", (event) => {
-                    if (link.classList.contains("learn-more")) {
-                        event.preventDefault();
-                        const description = link.parentElement.querySelector(".description");
-                        if (description) {
-                            description.classList.toggle("show");
-                        }
-                    }
-                });
-            });
-
-            let lastScrollTop = 0;
-            const header = document.querySelector('header');
-            window.addEventListener('scroll', () => {
-                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                if (scrollTop > lastScrollTop) {
-                    header.style.top = '-80px'; // Hide header
-                } else {
-                    header.style.top = '0'; // Show header
-                }
-                lastScrollTop = scrollTop;
-            });
-        });
-    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="script.js">
+    <link rel="stylesheet" href="indexAR.html">
+    <title>HAPPY BIRTHDAY!!!</title>
 </head>
 <body>
+
     <header>
-        <h1>World Explorer</h1>
-        <div class="hamburger">
-            <div></div>
-            <div></div>
-            <div></div>
+        <div class="song-selection">
+            <ul>
+                <p>Stellar(Slowed & Reverbed)</p>
+                <audio controls>
+                    <source src="stellar.mp3" type="audio/mp3">
+                </audio>
+            </ul>
         </div>
-        <nav class="nav-menu">
-            <button class="btnt" onclick="document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });">Gallery</button>
-            <button class="btnt" onclick="document.getElementById('paris').scrollIntoView({ behavior: 'smooth' });">Paris</button>
-            <button class="btnt" onclick="document.getElementById('tokyo').scrollIntoView({ behavior: 'smooth' });">Tokyo</button>
-            <button class="btnt" onclick="document.getElementById('newyork').scrollIntoView({ behavior: 'smooth' });">New York</button>
-            <button class="btnt" onclick="document.getElementById('dubai').scrollIntoView({ behavior: 'smooth' });">Dubai</button>
-            <button class="btnt" onclick="document.getElementById('rome').scrollIntoView({ behavior: 'smooth' });">Rome</button>
-            <button class="btnt" onclick="document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });">Contact</button>
-        </nav>
     </header>
-    <div class="inh">
-        <h1>Your travel guide for next year travels</h1>
-    </div>
-    <h1 class="nvm">Gallery for all cities</h1>
-    <section class="gallery" id="gallery">
-        <div class="card" style="background-image: url('paris2.jpg');">
-            <h2>Paris, France</h2>
-        </div>
-        <div class="card" style="background-image: url('Tokyo2.jpg');">
-            <h2>Tokyo, Japan</h2>
-        </div>
-        <div class="card" style="background-image: url('newyork2.jpg');">
-            <h2>New York, USA</h2>
-        </div>
-        <div class="card" style="background-image: url('dubai1.jpg');">
-            <h2>Dubai, UAE</h2>
-        </div>
-        <div class="card" style="background-image: url('rome2.jpg');">
-            <h2>Rome, Italy</h2>
+
+    <nav class="mobile-nav">
+        <a href="#services" class="mobile-navB">Services</a>
+        <a href="#projects" class="mobile-navB">Projects</a>
+        <a href="#contact" class="mobile-navB">Contact</a>
+        <a href="indexAR.html">Arabic</a>
+    </nav>
+
+    <section class="main">
+        <div>
+            <h2>And now it is the time of the year for.....<br><span>HAPPY BIRTHDAY!!!!</span></h2>
+            <h3>I hope you fulfill your dreams</h3>
+            <a href="#services" class="main-btn">Open Your Gift!!!</a>
         </div>
     </section>
-    
-    <section class="city-section" id="paris" style="background-image: url('paris1.jpg');">
-        <h1>Paris, France</h1>
-        <a href="#" class="btn learn-more">Learn More</a>
-        <a href="https://www.booking.com/index.html?label=gen173bo-1DCAEoggI46AdIM1gDaEOIAQGYATG4ARfIAQzYAQPoAQH4AQOIAgGYAgKoAgO4AtPQwb0GwAIB0gIkMjczMmVlNGItMDQ0Yy00NGQ3LWFmZDYtOGFlN2I4ZTAxNTQz2AIE4AIB&aid=304142&selected_currency=EGP&sid=295b300afa8060ed01b3365c7d043cfa" class="btn">Book Now</a>
-        <p class="description">Paris, the city of love, is famous for its art, cuisine, and historic landmarks like the Eiffel Tower.</p>
+
+
+    <section class="cards" id="services">
+        <h2 class="title">Your gift!! (:  (Click to open)</h2>
+        <div class="content">
+            <div class="image-container">
+                <img id="image" src="image1.png" alt="Image 1">
+              </div>
+        </div>
     </section>
-    <img src="shelf.png" alt="Shelf" class="shelf">
-    
-    <section class="city-section" id="tokyo" style="background-image: url('Tokyo1.jpg');">
-        <h1>Tokyo, Japan</h1>
-        <a href="#" class="btn learn-more">Learn More</a>
-        <a href="https://www.booking.com/index.html?label=gen173bo-1DCAEoggI46AdIM1gDaEOIAQGYATG4ARfIAQzYAQPoAQH4AQOIAgGYAgKoAgO4AtPQwb0GwAIB0gIkMjczMmVlNGItMDQ0Yy00NGQ3LWFmZDYtOGFlN2I4ZTAxNTQz2AIE4AIB&aid=304142&selected_currency=EGP&sid=295b300afa8060ed01b3365c7d043cfa" class="btn">Book Now</a>
-        <p class="description">Tokyo is a bustling metropolis known for its neon lights, technology, and rich culture.</p>
+
+    <script>
+        const image = document.getElementById('image');
+            let currentImage = 'image1.png'; // keep track of the current image
+
+            image.addEventListener('click', () => {
+                if (currentImage === 'image1.png') {
+                    image.src = 'yesss.png';
+                    currentImage = 'yesss.png';
+                } else {
+                    image.src = 'image1.png';
+                        currentImage = 'image1.png';
+                    }
+        });
+     </script>
+
+    <section class="projects" id="projects">
+        <h2 class="title">How i feel rn:</h2>
+        <div class="project-card">
+            <div class="project-image">
+                <img src="cat jumping.gif" />
+            </div>
+            <p>i hope you do so too :)</p>
+        </div>
     </section>
-    <img src="shelf.png" alt="Shelf" class="shelf">
-    
-    <section class="city-section" id="newyork" style="background-image: url('newyork1.jpg');">
-        <h1>New York, USA</h1>
-        <a href="#" class="btn learn-more">Learn More</a>
-        <a href="https://www.booking.com/searchresults.html?ss=new+york&ssne=Tokyo&ssne_untouched=Tokyo&efdco=1&label=gen173bo-1DCAEoggI46AdIM1gDaEOIAQGYATG4ARfIAQzYAQPoAQH4AQOIAgGYAgKoAgO4AtPQwb0GwAIB0gIkMjczMmVlNGItMDQ0Yy00NGQ3LWFmZDYtOGFlN2I4ZTAxNTQz2AIE4AIB&sid=295b300afa8060ed01b3365c7d043cfa&aid=304142&lang=en-us&sb=1&src_elem=sb&src=searchresults&dest_id=20088325&dest_type=city&ac_position=0&ac_click_type=b&ac_langcode=en&ac_suggestion_list_length=5&search_selected=true&search_pageview_id=1a9f47cf190901ef&ac_meta=GhAxYTlmNDdjZjE5MDkwMWVmIAAoATICZW46BG5ldyBAAEoAUAA%3D&group_adults=1&no_rooms=1&group_children=0" class="btn">Book Now</a>
-        <p class="description">New York City, the city that never sleeps, is famous for Times Square, Broadway, and Central Park.</p>
+
+    <section class="projects" id="projects">
+        <h2 class="title">special bday message:</h2>
+            <div class="project-image">
+                <img src="i.png" />
+            </div>
     </section>
-    <img src="shelf.png" alt="Shelf" class="shelf">
+
     
-    <section class="city-section" id="dubai" style="background-image: url('dubai2.jpg');">
-        <h1>Dubai, UAE</h1>
-        <a href="#" class="btn learn-more">Learn More</a>
-        <a href="https://www.booking.com/searchresults.html?ss=dubai&ssne=New+York&ssne_untouched=New+York&efdco=1&label=gen173bo-1DCAEoggI46AdIM1gDaEOIAQGYATG4ARfIAQzYAQPoAQH4AQOIAgGYAgKoAgO4AtPQwb0GwAIB0gIkMjczMmVlNGItMDQ0Yy00NGQ3LWFmZDYtOGFlN2I4ZTAxNTQz2AIE4AIB&sid=295b300afa8060ed01b3365c7d043cfa&aid=304142&lang=en-us&sb=1&src_elem=sb&src=searchresults&group_adults=1&no_rooms=1&group_children=0" class="btn">Book Now</a>
-        <p class="description">Dubai is known for its modern architecture, luxury shopping, and the Burj Khalifa.</p>
-    </section>
-    <img src="shelf.png" alt="Shelf" class="shelf">
-    
-    <section class="city-section" id="rome" style="background-image: url('rome1.jpg');">
-        <h1>Rome, Italy</h1>
-        <a href="#" class="btn learn-more">Learn More</a>
-        <a href="https://www.booking.com/searchresults.html?ss=rome&ssne=Dubai&ssne_untouched=Dubai&efdco=1&label=gen173bo-1DCAEoggI46AdIM1gDaEOIAQGYATG4ARfIAQzYAQPoAQH4AQOIAgGYAgKoAgO4AtPQwb0GwAIB0gIkMjczMmVlNGItMDQ0Yy00NGQ3LWFmZDYtOGFlN2I4ZTAxNTQz2AIE4AIB&sid=295b300afa8060ed01b3365c7d043cfa&aid=304142&lang=en-us&sb=1&src_elem=sb&src=searchresults&group_adults=1&no_rooms=1&group_children=0" class="btn">Book Now</a>
-        <p class="description">Rome, the eternal city, is home to the Colosseum, Vatican City, and ancient ruins.</p>
-    </section>
-    
-    <footer id="contact">
-        <p>Thank you for visiting!<br>Made by Mohamed | Contact: <a class="btnt" href="https://mudkios.github.io/KL/" target="_blank">My Website</a></p>
-    </footer>
+    <footer class="footer">
+        <p class="footer-title">Copyrights @ <span>Mohamed Walid</span></p>
+        <div class="social-icons">
+        </div>
+
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
